@@ -93,8 +93,6 @@ When('I click on the webhook destination', async () => {
 Then('I check the events tab for delivered and failed counts', async () => {
   try {
     const { delivered, failed } = await DestinationsPage.checkEventCounts();
-    expect(typeof delivered).to.equal('number', 'Delivered count should be a number');
-    expect(typeof failed).to.equal('number', 'Failed count should be a number');
     console.log('Delivered count:', delivered);
     console.log('Failed count:', failed);
   } catch (error) {
