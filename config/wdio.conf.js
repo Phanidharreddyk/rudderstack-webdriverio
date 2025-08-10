@@ -18,7 +18,12 @@ export const config = {
   capabilities: [{
     browserName: 'chrome',
     'goog:chromeOptions': {
-      args: process.env.HEADLESS ? ['--headless', '--disable-gpu'] : []
+      args: [
+        '--headless', // Assuming headless for CI
+        '--no-sandbox',
+        '--disable-dev-shm-usage', // Common for CI environments
+        `--user-data-dir=/tmp/chrome-user-data-${process.pid}-${Date.now()}` // Unique directory
+      ]
     }
   }],
   logLevel: 'debug',
