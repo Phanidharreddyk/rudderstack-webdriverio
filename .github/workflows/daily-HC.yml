@@ -31,7 +31,7 @@ jobs:
       - name: Install Allure command-line
         run: npm install -g allure-commandline
 
-      - name: Check Chrome version
+      - name: Check Classes
         run: google-chrome --version
 
       - name: Install ChromeDriver
@@ -58,7 +58,9 @@ jobs:
         run: |
           allure generate allure-results -o allure-report --clean
           mkdir -p allure-report/history
-          cp -r allure-history/history/. allure-report/history/ || true
+          if [ -d allure-history/history ]; then
+            cp -r allure-history/history/. allure-report/history/ || true
+          fi
           ls -la allure-report  # Debug: Confirm directory contents
         env:
           ALLURE_RESULTS_PATH: allure-results
@@ -72,4 +74,4 @@ jobs:
           publish_branch: gh-pages
           keep_files: true
 
-    
+     
