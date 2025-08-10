@@ -13,16 +13,12 @@ class LoginPage {
     await this.emailInput.setValue(username);
     await this.passwordInput.setValue(password);
     await this.submitButton.click();
-    
     // Click "I'll do this later" link
     await this.addMfaLaterLink.click();
-    
     // Click "Go to dashboard" button
     await this.goToDashboardButton.click();
-    
     // Close the modal by clicking the SVG close button
     await this.closeModalButton.click();
-    
     // Wait for the Connections heading to ensure the dashboard is fully loaded
     await this.connectionsHeading.waitForDisplayed();
   }
