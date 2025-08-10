@@ -31,7 +31,7 @@ jobs:
       - name: Install Allure command-line
         run: npm install -g allure-commandline
 
-      - name: Check Classes
+      - name: Check Chrome version
         run: google-chrome --version
 
       - name: Install ChromeDriver
@@ -72,6 +72,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: allure-report
           publish_branch: gh-pages
-          keep_files: true
+          keep_files: false  # Clear existing files to avoid conflicts
+          destination_dir: .  # Publish contents to root of gh-pages
+          exclude_assets: '*.md'  # Exclude README.md or other Markdown files
 
-     
