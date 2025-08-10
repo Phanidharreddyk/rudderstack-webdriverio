@@ -2,7 +2,7 @@ name: Daily Rudderstack Tests
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight UTC
+    - cron: '30 18 * * *' # Runs daily at 18:30 UTC (midnight IST)
   workflow_dispatch:
   push:
     branches:
@@ -28,9 +28,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Allure command-line
-        run: npm install -g allure-commandline
-
       - name: Check Chrome version
         run: google-chrome --version
 
@@ -44,35 +41,3 @@ jobs:
         run: npx wdio config/wdio.conf.js
         env:
           ENV: ${{ matrix.env }}
-
-      - name: Load test report history
-        if: always()
-        uses: actions/checkout@v3
-        with:
-          ref: gh-pages
-          path: allure-history
-        continue-on-error: true
-
-      - name: Generate Allure report
-        if: always()
-        run: |
-          allure generate allure-results -o allure-report --clean
-          mkdir -p allure-report/history
-          if [ -d allure-history/history ]; then
-            cp -r allure-history/history/. allure-report/history/ || true
-          fi
-          ls -la allure-report  # Debug: Confirm directory contents
-        env:
-          ALLURE_RESULTS_PATH: allure-results
-
-      - name: Publish Allure report to GitHub Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: allure-report
-          publish_branch: gh-pages
-          keep_files: false  # Clear existing files to avoid conflicts
-          destination_dir: .  # Publish contents to root of gh-pages
-          exclude_assets: '*.md'  # Exclude README.md or other Markdown files
-
