@@ -1,30 +1,19 @@
-Rudderstack SDET Assignment
-Overview
+# Rudderstack SDET Assignment
+
+## Overview
 Automation framework for Rudderstack flows using WebdriverIO and CucumberJS with a Page Object Model.
-Setup
 
-Clone the repo: git clone https://github.com/Phanidharreddyk/rudderstack-webdriverio.git
+##Setup
 
-Install dependencies: npm install
+1. Clone the repo: git clone https://github.com/Phanidharreddyk/rudderstack-webdriverio.git
 
-Create a .env file in the project root with:
-DEV_USERNAME=your_dev_email
-DEV_PASSWORD=your_dev_password
-DEV_BASE_URL=https://dev.app.rudderstack.com
-QA_USERNAME=your_qa_email
-QA_PASSWORD=your_qa_password
-QA_BASE_URL=https://qa.app.rudderstack.com
-PROD_USERNAME=your_prod_email
-PROD_PASSWORD=your_prod_password
-PROD_BASE_URL=https://app.rudderstack.com
-WEBHOOK_URL=https://your.requestcatcher.com/test
+2. Install dependencies: npm install
 
-
-Run tests locally:
-ENV=dev npx wdio config/wdio.conf.js
-ENV=qa npx wdio config/wdio.conf.js
+3. Run tests locally:
+```bash
 ENV=prod npx wdio config/wdio.conf.js
-
+ENV=qa npx wdio config/wdio.conf.js
+ENV=dev npx wdio config/wdio.conf.js
 
 
 Project Structure
