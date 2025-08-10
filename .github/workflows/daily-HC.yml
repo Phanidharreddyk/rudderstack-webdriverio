@@ -29,8 +29,8 @@ jobs:
       - name: Check Chrome version
         run: google-chrome --version
 
-      - name: Install ChromeDriver for Chrome 138
-        run: npm install chromedriver@138.0.7204.10 --save-dev
+      - name: Install ChromeDriver
+        run: npm install chromedriver@138.0.0 --save-dev
 
       - name: Clean up Chrome processes
         run: pkill -f chrome || true
