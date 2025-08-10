@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 0 * * *' # Runs daily at midnight UTC
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   test:
@@ -22,6 +25,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Check Chrome version
+        run: google-chrome --version
+
+      - name: Install ChromeDriver for Chrome 138
+        run: npm install chromedriver@138.0.7204.10 --save-dev
+
+      - name: Clean up Chrome processes
+        run: pkill -f chrome || true
 
       - name: Run tests
         run: npx wdio config/wdio.conf.js
