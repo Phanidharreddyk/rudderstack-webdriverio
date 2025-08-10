@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required for accessing history for Allure reports
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -25,6 +27,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Install Allure command-line
+        run: npm install -g allure-commandline
 
       - name: Check Chrome version
         run: google-chrome --version
@@ -40,9 +45,41 @@ jobs:
         env:
           ENV: ${{ matrix.env }}
 
-      - name: Upload reports
+      - name: Load test report history
+        if: always()
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+          path: allure-history
+        continue-on-error: true
+
+      - name: Generate Allure report
+        if: always()
+        run: |
+          allure generate allure-results -o allure-report --clean
+          cp -r allure-history/. allure-report/history || true
+        env:
+          ALLURE_RESULTS_PATH: allure-results
+
+      - name: Publish Allure report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-report
+          publish_branch: gh-pages
+          keep_files: true # Preserve history for Allure reports
+
+      - name: Upload Allure results as artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-reports-${{ matrix.env }}
           path: allure-results
+
+      - name: Upload Allure report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-${{ matrix.env }}
+          path: allure-report
