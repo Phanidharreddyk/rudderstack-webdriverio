@@ -23,10 +23,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Copy .env file
-        run: cp .env .env
-        # This step ensures the .env file is available; it's redundant here but included for clarity
-
       - name: Run tests
         run: npx wdio config/wdio.conf.js
         env:
